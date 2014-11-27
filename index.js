@@ -76,7 +76,7 @@ function Scraper(address){
 // Inherit the methods of "events".
 util.inherits(Scraper, events);
 
-Scraper.prototype.scrape = function(callback){
+Scraper.prototype.scrape = function(callback, finalCallback){
 
 	if(typeof(callback) == "function"){
 
@@ -119,9 +119,8 @@ Scraper.prototype.scrape = function(callback){
 				var previous = data;
 			});
 
-			response.on("end", function(){
-
-			});
+			if (!finalCallback) finalCallback = function() {};
+			response.on("end", finalCallback);
 		}
 	});
 	request.end();
